@@ -1,0 +1,45 @@
+mat-sidenav-container {
+  height: 100%;
+overflow-y: hidden;
+  mat-sidenav {
+    mat-nav-list {
+      .menu-item {
+        margin-left: 8px;
+      }
+
+      .chevron-button {
+        transition: 300ms ease-in-out;
+        transform: rotate(0deg);
+      }
+
+      .chevron-button.rotated {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+.chevron-button {
+  cursor: pointer;
+}
+
+.menu-item {
+  display: inline-block;
+  vertical-align: middle; /* Align text with the icon */
+  line-height: 24px; /* Match the icon height */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: calc(100% - 40px); /* Adjust based on padding and icon size */
+}
+
+.session-content {
+  padding-left: 8px; /* Add padding between the icon and text */
+}
+
+mat-list-item {
+  align-items: center;
+}
+
+mat-icon {
+  vertical-align: middle; /* Ensure the icon aligns with the text */
+}

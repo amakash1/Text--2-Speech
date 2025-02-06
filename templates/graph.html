@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightgreen", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:0", "label": "Session: 9d3a83ae-ddf5-4a52-9327-1e2310128092", "shape": "dot", "size": 40, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:0\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737470924228, \u0027sessionId\u0027: \u00279d3a83ae-ddf5-4a52-9327-1e2310128092\u0027}\u003e"}, {"color": "lightcoral", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:1", "label": "Content: Hey world", "shape": "dot", "size": 30, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:1\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Hey world\u0027}\u003e"}, {"color": "lightgreen", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:3", "label": "Session: 9c78dc92-47f8-4b26-8b04-bee21d130584", "shape": "dot", "size": 40, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:3\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737471253139, \u0027sessionId\u0027: \u00279c78dc92-47f8-4b26-8b04-bee21d130584\u0027}\u003e"}, {"color": "lightcoral", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:4", "label": "Content: Hey world", "shape": "dot", "size": 30, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:4\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Hey world\u0027}\u003e"}, {"color": "lightgreen", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:6", "label": "Session: a15b139a-6761-41c6-a894-c42289e23732", "shape": "dot", "size": 40, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:6\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737472445972, \u0027sessionId\u0027: \u0027a15b139a-6761-41c6-a894-c42289e23732\u0027}\u003e"}, {"color": "lightcoral", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:7", "label": "Content: Hey venna usha , nalla pillaya iru", "shape": "dot", "size": 30, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:7\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Hey venna usha , nalla pillaya iru\u0027}\u003e"}, {"color": "lightgreen", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:9", "label": "Session: 1bbc73c4-8895-47c3-b5a2-862b591fefd4", "shape": "dot", "size": 40, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:9\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737472472957, \u0027sessionId\u0027: \u00271bbc73c4-8895-47c3-b5a2-862b591fefd4\u0027}\u003e"}, {"color": "lightcoral", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:10", "label": "Content: correct ah irunthuko", "shape": "dot", "size": 30, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:10\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027correct ah irunthuko\u0027}\u003e"}, {"color": "lightgreen", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:12", "label": "Session: 32247b3e-1781-4536-b01c-e5e27c2a89e0", "shape": "dot", "size": 40, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:12\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737474187532, \u0027sessionId\u0027: \u002732247b3e-1781-4536-b01c-e5e27c2a89e0\u0027}\u003e"}, {"color": "lightcoral", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:13", "label": "Content: Hey Teams we are ready for FIDS demo", "shape": "dot", "size": 30, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:13\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Hey Teams we are ready for FIDS demo\u0027}\u003e"}, {"color": "lightgreen", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:15", "label": "Session: 2d5e539b-b0ee-41cd-b788-8c9c7a8b8959", "shape": "dot", "size": 40, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:15\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737493764691, \u0027sessionId\u0027: \u00272d5e539b-b0ee-41cd-b788-8c9c7a8b8959\u0027}\u003e"}, {"color": "lightcoral", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:16", "label": "Content: Hey", "shape": "dot", "size": 30, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:16\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Hey\u0027}\u003e"}, {"color": "lightgreen", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:18", "label": "Session: 9b970053-7a93-4c29-aaff-7281a93e2b12", "shape": "dot", "size": 40, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:18\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737494043584, \u0027sessionId\u0027: \u00279b970053-7a93-4c29-aaff-7281a93e2b12\u0027}\u003e"}, {"color": "lightcoral", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:19", "label": "Content: Hey Boss What are you doing", "shape": "dot", "size": 30, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:19\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Hey Boss What are you doing\u0027}\u003e"}, {"color": "lightgreen", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:21", "label": "Session: 9b4657c6-034e-4fee-95ab-160130929ef5", "shape": "dot", "size": 40, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:21\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737494205639, \u0027sessionId\u0027: \u00279b4657c6-034e-4fee-95ab-160130929ef5\u0027}\u003e"}, {"color": "lightcoral", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:22", "label": "Content: Hi Boss, how is it going?", "shape": "dot", "size": 30, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:22\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Hi Boss, how is it going?\u0027}\u003e"}, {"color": "lightgreen", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:24", "label": "Session: 718fa3ac-f881-4466-9801-d90c7f1ff188", "shape": "dot", "size": 40, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:24\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737494654710, \u0027sessionId\u0027: \u0027718fa3ac-f881-4466-9801-d90c7f1ff188\u0027}\u003e"}, {"color": "lightcoral", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:25", "label": "Content: This is not a drill, this is a robbery", "shape": "dot", "size": 30, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:25\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027This is not a drill, this is a robbery\u0027}\u003e"}, {"color": "lightgreen", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:27", "label": "Session: 699e42f2-2a28-4898-8f78-530848d41fd6", "shape": "dot", "size": 40, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:27\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737495312075, \u0027sessionId\u0027: \u0027699e42f2-2a28-4898-8f78-530848d41fd6\u0027}\u003e"}, {"color": "lightcoral", "id": "4:a4116b63-56cb-40b8-bd68-e344656d581b:28", "label": "Content: Working in Caterpillar is EhhhhhMazing", "shape": "dot", "size": 30, "title": "\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:28\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Working in Caterpillar is EhhhhhMazing\u0027}\u003e"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "blue", "from": "4:a4116b63-56cb-40b8-bd68-e344656d581b:0", "label": "HAS_CONTENT", "title": "\u003cRelationship element_id=\u00275:a4116b63-56cb-40b8-bd68-e344656d581b:1152921504606846976\u0027 nodes=(\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:0\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737470924228, \u0027sessionId\u0027: \u00279d3a83ae-ddf5-4a52-9327-1e2310128092\u0027}\u003e, \u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:1\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Hey world\u0027}\u003e) type=\u0027HAS_CONTENT\u0027 properties={}\u003e", "to": "4:a4116b63-56cb-40b8-bd68-e344656d581b:1"}, {"arrows": "to", "color": "blue", "from": "4:a4116b63-56cb-40b8-bd68-e344656d581b:3", "label": "HAS_CONTENT", "title": "\u003cRelationship element_id=\u00275:a4116b63-56cb-40b8-bd68-e344656d581b:1152921504606846979\u0027 nodes=(\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:3\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737471253139, \u0027sessionId\u0027: \u00279c78dc92-47f8-4b26-8b04-bee21d130584\u0027}\u003e, \u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:4\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Hey world\u0027}\u003e) type=\u0027HAS_CONTENT\u0027 properties={}\u003e", "to": "4:a4116b63-56cb-40b8-bd68-e344656d581b:4"}, {"arrows": "to", "color": "blue", "from": "4:a4116b63-56cb-40b8-bd68-e344656d581b:6", "label": "HAS_CONTENT", "title": "\u003cRelationship element_id=\u00275:a4116b63-56cb-40b8-bd68-e344656d581b:1152921504606846982\u0027 nodes=(\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:6\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737472445972, \u0027sessionId\u0027: \u0027a15b139a-6761-41c6-a894-c42289e23732\u0027}\u003e, \u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:7\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Hey venna usha , nalla pillaya iru\u0027}\u003e) type=\u0027HAS_CONTENT\u0027 properties={}\u003e", "to": "4:a4116b63-56cb-40b8-bd68-e344656d581b:7"}, {"arrows": "to", "color": "blue", "from": "4:a4116b63-56cb-40b8-bd68-e344656d581b:9", "label": "HAS_CONTENT", "title": "\u003cRelationship element_id=\u00275:a4116b63-56cb-40b8-bd68-e344656d581b:1152921504606846985\u0027 nodes=(\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:9\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737472472957, \u0027sessionId\u0027: \u00271bbc73c4-8895-47c3-b5a2-862b591fefd4\u0027}\u003e, \u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:10\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027correct ah irunthuko\u0027}\u003e) type=\u0027HAS_CONTENT\u0027 properties={}\u003e", "to": "4:a4116b63-56cb-40b8-bd68-e344656d581b:10"}, {"arrows": "to", "color": "blue", "from": "4:a4116b63-56cb-40b8-bd68-e344656d581b:12", "label": "HAS_CONTENT", "title": "\u003cRelationship element_id=\u00275:a4116b63-56cb-40b8-bd68-e344656d581b:1152921504606846988\u0027 nodes=(\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:12\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737474187532, \u0027sessionId\u0027: \u002732247b3e-1781-4536-b01c-e5e27c2a89e0\u0027}\u003e, \u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:13\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Hey Teams we are ready for FIDS demo\u0027}\u003e) type=\u0027HAS_CONTENT\u0027 properties={}\u003e", "to": "4:a4116b63-56cb-40b8-bd68-e344656d581b:13"}, {"arrows": "to", "color": "blue", "from": "4:a4116b63-56cb-40b8-bd68-e344656d581b:15", "label": "HAS_CONTENT", "title": "\u003cRelationship element_id=\u00275:a4116b63-56cb-40b8-bd68-e344656d581b:1152921504606846991\u0027 nodes=(\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:15\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737493764691, \u0027sessionId\u0027: \u00272d5e539b-b0ee-41cd-b788-8c9c7a8b8959\u0027}\u003e, \u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:16\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Hey\u0027}\u003e) type=\u0027HAS_CONTENT\u0027 properties={}\u003e", "to": "4:a4116b63-56cb-40b8-bd68-e344656d581b:16"}, {"arrows": "to", "color": "blue", "from": "4:a4116b63-56cb-40b8-bd68-e344656d581b:18", "label": "HAS_CONTENT", "title": "\u003cRelationship element_id=\u00275:a4116b63-56cb-40b8-bd68-e344656d581b:1152921504606846994\u0027 nodes=(\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:18\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737494043584, \u0027sessionId\u0027: \u00279b970053-7a93-4c29-aaff-7281a93e2b12\u0027}\u003e, \u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:19\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Hey Boss What are you doing\u0027}\u003e) type=\u0027HAS_CONTENT\u0027 properties={}\u003e", "to": "4:a4116b63-56cb-40b8-bd68-e344656d581b:19"}, {"arrows": "to", "color": "blue", "from": "4:a4116b63-56cb-40b8-bd68-e344656d581b:21", "label": "HAS_CONTENT", "title": "\u003cRelationship element_id=\u00275:a4116b63-56cb-40b8-bd68-e344656d581b:1152921504606846997\u0027 nodes=(\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:21\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737494205639, \u0027sessionId\u0027: \u00279b4657c6-034e-4fee-95ab-160130929ef5\u0027}\u003e, \u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:22\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Hi Boss, how is it going?\u0027}\u003e) type=\u0027HAS_CONTENT\u0027 properties={}\u003e", "to": "4:a4116b63-56cb-40b8-bd68-e344656d581b:22"}, {"arrows": "to", "color": "blue", "from": "4:a4116b63-56cb-40b8-bd68-e344656d581b:24", "label": "HAS_CONTENT", "title": "\u003cRelationship element_id=\u00275:a4116b63-56cb-40b8-bd68-e344656d581b:1152921504606847000\u0027 nodes=(\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:24\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737494654710, \u0027sessionId\u0027: \u0027718fa3ac-f881-4466-9801-d90c7f1ff188\u0027}\u003e, \u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:25\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027This is not a drill, this is a robbery\u0027}\u003e) type=\u0027HAS_CONTENT\u0027 properties={}\u003e", "to": "4:a4116b63-56cb-40b8-bd68-e344656d581b:25"}, {"arrows": "to", "color": "blue", "from": "4:a4116b63-56cb-40b8-bd68-e344656d581b:27", "label": "HAS_CONTENT", "title": "\u003cRelationship element_id=\u00275:a4116b63-56cb-40b8-bd68-e344656d581b:1152921504606847003\u0027 nodes=(\u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:27\u0027 labels=frozenset({\u0027Session\u0027}) properties={\u0027createdAt\u0027: 1737495312075, \u0027sessionId\u0027: \u0027699e42f2-2a28-4898-8f78-530848d41fd6\u0027}\u003e, \u003cNode element_id=\u00274:a4116b63-56cb-40b8-bd68-e344656d581b:28\u0027 labels=frozenset({\u0027Content\u0027}) properties={\u0027text\u0027: \u0027Working in Caterpillar is EhhhhhMazing\u0027}\u003e) type=\u0027HAS_CONTENT\u0027 properties={}\u003e", "to": "4:a4116b63-56cb-40b8-bd68-e344656d581b:28"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"color": {"highlight": {"background": "orange", "border": "black"}, "hover": {"background": "lightblue", "border": "black"}}, "font": {"size": 14, "face": "arial"}, "shape": "dot", "scaling": {"min": 20, "max": 50}}, "edges": {"color": {"inherit": true}, "smooth": {"type": "cubicBezier"}}, "physics": {"stabilization": true, "barnesHut": {"gravitationalConstant": -20000, "springLength": 100, "springConstant": 0.05}}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

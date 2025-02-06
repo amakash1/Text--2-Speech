@@ -1,0 +1,37 @@
+<mat-sidenav-container autosize>
+  <mat-sidenav #sidenav mode="side" opened="isExpanded" style="background-color: #900c3f;">
+    <mat-list-item (click)="isExpanded = !isExpanded">
+      <mat-icon
+        mat-list-icon
+        class="chevron-button"
+        [ngClass]="{ rotated: isExpanded }"
+        >chevron_right
+      </mat-icon>
+    </mat-list-item>
+    <mat-nav-list>
+      <mat-list-item>
+        <mat-icon mat-list-icon>add</mat-icon>
+        <span *ngIf="isExpanded" class="menu-item" (click)="createNewSession()">Create New Session</span>
+      </mat-list-item>
+      <mat-list-item *ngFor="let session of allSessions.sessions; index as i" (click)="selectSession(session.sessionId)">
+        <mat-icon mat-list-icon>psychology</mat-icon>
+        <span *ngIf="isExpanded" class="menu-item session-content">
+          {{ session.content | slice: 0:20 }}<span *ngIf="session.content.length > 20">...</span>
+        </span>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar style="background-color: #900c3f;">
+      <h4>Text To Speech</h4>
+    </mat-toolbar>
+    <!-- Dynamically load session details -->
+    <div *ngIf="selectedSessionId; else noSessionSelected">
+      <app-tts-plain [sessionId]="selectedSessionId"></app-tts-plain>
+    </div>
+    <ng-template #noSessionSelected>
+      <app-tts-input></app-tts-input>
+    </ng-template>
+  </mat-sidenav-content>
+</mat-sidenav-container>

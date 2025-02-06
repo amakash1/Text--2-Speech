@@ -1,0 +1,18 @@
+<div *ngIf="isLoading" class="loading-container">
+    <p class="loading-text">Loading session details...</p>
+  </div>
+  
+  <div *ngIf="sessionDetails" class="session-details-container">
+    <h2 class="session-title">Session Details</h2>
+    
+    <!-- Displaying the content property as a large text -->
+    <div class="content-box">
+      {{ sessionDetails.data[0].content }}
+    </div>
+    
+    <!-- Audio player for the downloaded audio file -->
+    <div *ngIf="audioFileUrl" class="audio-container">
+      <audio [src]="audioFileUrl" controls></audio>
+    </div>
+  </div>
+  

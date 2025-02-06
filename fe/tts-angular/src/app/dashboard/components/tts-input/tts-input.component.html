@@ -1,0 +1,34 @@
+<div class="session-detail-container" [ngStyle]="{'background': 'none'}">
+  <!-- Download Graph Button -->
+  <button mat-raised-button class="download-button" (click)="fetchGraphHtml()">
+    Download Graph
+  </button>
+
+  <!-- Session Title with Typewriter Animation -->
+  <h2 class="session-title" [@typewriterAnimation]="'in'">Hey! There fellow geek</h2>
+
+  <!-- Insert the fetched HTML as content into a div for the background -->
+  <div class="graph-background" [innerHTML]="graphHtml"></div>
+
+  <!-- Styled and centered textarea -->
+  <textarea
+    class="session-textbox"
+    [(ngModel)]="sessionText"
+    placeholder="Type your message here..."
+    rows="4"
+  ></textarea>
+
+  <!-- Submit Button -->
+  <button mat-raised-button (click)="sendMessage()" class="send-button">
+    Submit
+  </button>
+
+  <!-- Audio player -->
+  <div *ngIf="audioFile" class="audio-player-container">
+    <h3 class="audio-title">Audio File</h3>
+    <audio controls class="audio-element">
+      <source [src]="audioFile" type="audio/mp3" />
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+</div>
