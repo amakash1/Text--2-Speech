@@ -1,0 +1,6 @@
+flask
+neo4j
+ibm-watson>=7.0.0
+gTTS
+flask-cors
+pyvis
